@@ -9,6 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
 
     <style>
+        .card-title {
+    font-family: 'Pirata One', serif;
+    font-size: 20px;
+    color: var(--creme);
+    margin: -5px 0 20px;
+    letter-spacing: 1px;
+}
         body {
             margin: 0;
             padding: 0;
@@ -31,6 +38,7 @@
                 </svg>");
             background-size: 300px;
             background-repeat: repeat;
+            background-opacity: 0.18;
         }
 
         h1, h2 {
@@ -106,6 +114,8 @@
         <div id="oneCard" class="cards-area hidden">
             <h2>Uma Carta</h2>
             <img id="singleCardImg" src="" alt="Carta de Tarot" />
+            <p id="singleCardName" class="card-title"></p>
+
         </div>
 
         <!-- Tiragem de 3 cartas -->
@@ -113,15 +123,21 @@
             <h2>Tiragem 1 • 2 • 3</h2>
 
             <div class="options">
-                <p>• Passado — Presente — Futuro</p>
-                <p>• Situação — Desafio — Conselho</p>
-                <p>• Você — O Outro — A Relação</p>
-                <p>• O Que Aconteceu — O Que Está Acontecendo — O Que Virá</p>
+                <p>Passado • Presente • Futuro</p>
+                <p>Situação • Desafio • Conselho</p>
+                <p>Você • O Outro • A Relação</p>
+                <p>O Que Aconteceu • O Que Está Acontecendo • O Que Virá</p>
             </div>
 
             <img id="card1" src="" alt="Carta 1" />
+            <p id="card1Name" class="card-title"></p>
+
             <img id="card2" src="" alt="Carta 2" />
+            <p id="card2Name" class="card-title"></p>
+
             <img id="card3" src="" alt="Carta 3" />
+            <p id="card3Name" class="card-title"></p>
+
         </div>
 
     </div>
@@ -152,6 +168,37 @@
             "https://www.sacred-texts.com/tarot/pkt/img/ar20.jpg",
             "https://www.sacred-texts.com/tarot/pkt/img/ar21.jpg"
         ];
+<script>
+    const tarotNames = {
+        "ar00.jpg": "O Louco",
+        "ar01.jpg": "O Mago",
+        "ar02.jpg": "A Sacerdotisa",
+        "ar03.jpg": "A Imperatriz",
+        "ar04.jpg": "O Imperador",
+        "ar05.jpg": "O Hierofante",
+        "ar06.jpg": "Os Enamorados",
+        "ar07.jpg": "O Carro",
+        "ar08.jpg": "A Força",
+        "ar09.jpg": "O Eremita",
+        "ar10.jpg": "A Roda da Fortuna",
+        "ar11.jpg": "A Justiça",
+        "ar12.jpg": "O Enforcado",
+        "ar13.jpg": "A Morte",
+        "ar14.jpg": "A Temperança",
+        "ar15.jpg": "O Diabo",
+        "ar16.jpg": "A Torre",
+        "ar17.jpg": "A Estrela",
+        "ar18.jpg": "A Lua",
+        "ar19.jpg": "O Sol",
+        "ar20.jpg": "O Julgamento",
+        "ar21.jpg": "O Mundo"
+    };
+
+    function getCardName(url) {
+        const file = url.split("/").pop();
+        return tarotNames[file] || "";
+    }
+</script>
 
         function drawRandomCard() {
             const index = Math.floor(Math.random() * tarotDeck.length);
@@ -159,20 +206,35 @@
         }
 
         function showOneCard() {
-            document.getElementById("oneCard").classList.remove("hidden");
-            document.getElementById("threeCards").classList.add("hidden");
+    hideAll();
+    const img = document.getElementById("singleCardImg");
+    const name = document.getElementById("singleCardName");
 
-            document.getElementById("singleCardImg").src = drawRandomCard();
-        }
+    const card = drawRandomCard();
+    img.src = card;
+    name.textContent = getCardName(card);
 
-        function showThreeCards() {
-            document.getElementById("threeCards").classList.remove("hidden");
-            document.getElementById("oneCard").classList.add("hidden");
+    document.getElementById("oneCard").classList.remove("hidden");
+}
 
-            document.getElementById("card1").src = drawRandomCard();
-            document.getElementById("card2").src = drawRandomCard();
-            document.getElementById("card3").src = drawRandomCard();
-        }
+function showThreeCards() {
+    hideAll();
+
+    const c1 = drawRandomCard();
+    const c2 = drawRandomCard();
+    const c3 = drawRandomCard();
+
+    document.getElementById("card1").src = c1;
+    document.getElementById("card1Name").textContent = getCardName(c1);
+
+    document.getElementById("card2").src = c2;
+    document.getElementById("card2Name").textContent = getCardName(c2);
+
+    document.getElementById("card3").src = c3;
+    document.getElementById("card3Name").textContent = getCardName(c3);
+
+    document.getElementById("threeCards").classList.remove("hidden");
+}
     </script>
 
 </body>
